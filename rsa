@@ -1,46 +1,46 @@
 #!/usr/bin/python3
-""" Gets two first prime factors of any number """
-from sys import argv, stderr
-import math
+""" Class factor_file """
+from sys import argv
+from math import sqrt
 
 
-if len(argv) != 2:
-    stderr.write("Usage: factors <file>\n")
-    exit(1)
+class factor_file:
+    """ init """
+    def __init__(self, filename):
+        """check if
+        file is not NULL
+        """
+        if filename is not None:
+            self.filename = filename
+
+    def open_read_file(self):
+        """read from file
+        add to array
+        """
+        with open(self.filename, encoding="utf-8") as file:
+            lines = file.readlines()
+        number_to_factor = []
+        for line in lines:
+            number_to_factor.append(int(line))
+        return number_to_factor
+
+    def factorial(self, n):
+        """factor each
+        n given
+        """
+        for i in range(2, n):
+            if n == ((n // i) * i):
+                print("{}={}*{}".format(n, (n // i), i))
+                break
+
+    def factor_each_n_in_lis(self):
+        """factor each
+        num in ls
+        """
+        ls = self.open_read_file()
+        for n in ls:
+            self.factorial(n)
 
 
-def checkPrime(num):
-    """ Check if number is prime """
-    i = 3
-    if num % 2 == 0:
-        return False
-    while i * i <= num:
-        if num % i == 0:
-            return False
-        i += 2
-    return True
-
-
-def factorNumber(num):
-    """ Calculates factor prime number """
-    if num % 2 == 0:
-        i = 2
-        print("{:d}={:d}*{:d}".format(num, int(num/i), i))
-    else:
-        fa = math.sqrt(num)
-        if fa % 1 == 0:
-            print("{:d}={:d}*{:d}".format(num, int(num/i), i))
-            return
-        fa = int(fa) + 1
-        for i in range(3, fa, +2):
-            if num % i == 0:
-                if checkPrime(i):
-                    print("{:d}={:d}*{:d}".format(num,
-                                                  int(num/i),
-                                                  i))
-                    return
-
-
-with open(argv[1], 'r') as f:
-    for line in f:
-        factorNumber(int(line))
+for i in range(1, len(argv)):
+    factor_file(argv[i]).factor_each_n_in_lis()
